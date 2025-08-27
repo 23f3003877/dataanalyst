@@ -398,8 +398,9 @@ async def ping_gemini_pro(question_text, relevant_context="", max_tries=3):
             if tries < max_tries:
                 print(f"Retrying... ({max_tries - tries} attempts remaining)")
             else:
+                
                 print(f"All {max_tries} attempts failed for Gemini Pro")
-                return {"error": f"Failed after {max_tries} attempts: {str(e)}"}
+                
 
 
 async def ping_open_ai_5(question_text, relevant_context="", max_tries=3):
@@ -3545,8 +3546,8 @@ async def aianalyst(request: Request):
     # horizon_response = await ping_grok(context, "You are a great Python code developer.JUST GIVE CODE NO EXPLANATIONS Who write final code for the answer and our workflow using all the detail provided to you")
     # Validate Grok response structure before trying to index
     try:
-        raw_code =  await ping_gemini_pro(context, "You are a great Python code developer. JUST GIVE CODE NO EXPLANATIONS.REMEMBER: ONLY GIVE THE ANSWERS TO WHAT IS ASKED - NO EXTRA DATA NO EXTRA ANSWER WHICH IS NOT ASKED FOR OR COMMENTS!. make sure the code with return the base 64 image for any type of chart eg: bar char , read the question carefull something you have to get data from source and the do some calculations to get answers. Write final code for the answer and our workflow using all the detail provided to you")
-        print(raw_code)
+        # raw_code =  await ping_gemini_pro(context, "You are a great Python code developer. JUST GIVE CODE NO EXPLANATIONS.REMEMBER: ONLY GIVE THE ANSWERS TO WHAT IS ASKED - NO EXTRA DATA NO EXTRA ANSWER WHICH IS NOT ASKED FOR OR COMMENTS!. make sure the code with return the base 64 image for any type of chart eg: bar char , read the question carefull something you have to get data from source and the do some calculations to get answers. Write final code for the answer and our workflow using all the detail provided to you")
+        # print(raw_code)
         
         # Primary: Use Claude Sonnet 4 with 3-minute timeout
         # response = await ping_claude(context, "You are a great Python code developer. JUST GIVE CODE NO EXPLANATIONS.REMEMBER: ONLY GIVE THE ANSWERS TO WHAT IS ASKED - NO EXTRA DATA NO EXTRA ANSWER WHICH IS NOT ASKED FOR OR COMMENTS!. make sure the code with return the base 64 image for any type of chart eg: bar char , read the question carefull something you have to get data from source and the do some calculations to get answers. Write final code for the answer and our workflow using all the detail provided to you. IMPORTANT SQL RULES: When using GROUP BY with CASE expressions, use ORDER BY 1, 2, 3 (positional numbers) instead of referencing column names. Include 'import matplotlib.pyplot as plt' in your imports.")
@@ -3556,9 +3557,9 @@ async def aianalyst(request: Request):
         
         # # Safely extract content from response (handles both Claude and OpenAI formats)
         # raw_code = extract_content_from_response(response)
-        # response = await ping_open_ai_5(context, "You are a great Python code developer. JUST GIVE CODE NO EXPLANATIONS.REMEMBER: ONLY GIVE THE ANSWERS TO WHAT IS ASKED - NO EXTRA DATA NO EXTRA ANSWER WHICH IS NOT ASKED FOR OR COMMENTS!. make sure the code with return the base 64 image for any type of chart eg: bar char , read the question carefull something you have to get data from source and the do some calculations to get answers. Write final code for the answer and our workflow using all the detail provided to you")
-        # raw_code = response["choices"][0]["message"]["content"]
-        # print(raw_code)
+        response = await ping_open_ai_5(context, "You are a great Python code developer. JUST GIVE CODE NO EXPLANATIONS.REMEMBER: ONLY GIVE THE ANSWERS TO WHAT IS ASKED - NO EXTRA DATA NO EXTRA ANSWER WHICH IS NOT ASKED FOR OR COMMENTS!. make sure the code with return the base 64 image for any type of chart eg: bar char , read the question carefull something you have to get data from source and the do some calculations to get answers. Write final code for the answer and our workflow using all the detail provided to you")
+        raw_code = response["choices"][0]["message"]["content"]
+        print(raw_code)
         if not raw_code:
             raise Exception("Failed to extract content from AI response")
         print(raw_code)
@@ -3713,8 +3714,8 @@ async def aianalyst(request: Request):
             # fixed_code = extract_content_from_response(horizon_fix)
 
 
-            gemini_fix = await ping_gemini_pro(fix_prompt, "You are a helpful Python code fixer. Don't try to code from scratch. Just fix the error. SEND FULL CODE WITH CORRECTION APPLIED")
-            fixed_code = gemini_fix
+            gemini_fix = await ping_chatgpt(fix_prompt, "You are a helpful Python code fixer. Don't try to code from scratch. Just fix the error. SEND FULL CODE WITH CORRECTION APPLIED")
+            fixed_code = gemini_fix["choices"][0]["message"]["content"]
 
             if not fixed_code:
                 raise Exception("Failed to extract fixed code from AI response")

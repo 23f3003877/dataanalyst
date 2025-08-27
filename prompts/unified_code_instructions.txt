@@ -22,6 +22,41 @@ SMART SQL APPROACH:
 ❌ BAD: Download 10,000 records then filter in Python
 ✅ GOOD: Write SQL that returns exactly the answer you need
 
+CRITICAL ONLY USE THESE PACKAGES NO OTHERS:
+beautifulsoup4
+duckdb
+fastapi
+html5lib
+httpx
+lxml
+matplotlib
+networkx
+numpy
+pandas
+seaborn
+playwright
+playwright-stealth
+python-dotenv
+python-multipart
+requests
+tabula-py
+uvicorn
+scipy
+pdfplumber
+selenium
+webdriver-manager
+chromedriver-autoinstaller
+openpyxl
+xlrd
+xlsxwriter
+scikit-learn
+chardet
+python-dateutil
+pytz
+urllib3
+fake-useragent
+
+
 TEMPLATE STRUCTURE:
 ```python
 import pandas as pd
